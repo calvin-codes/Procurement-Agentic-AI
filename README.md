@@ -22,6 +22,21 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 - 📈 **Messbare Performance-Optimierung** mit Deepeval  
 - 🔄 **Zukunftsfähigkeit** via MCP-Integration in der nächsten Pilotphase
 
+- [🚀 Überblick](#-überblick)
+- [🎯 Ziele](#-ziele)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [🏗️ Architektur](#-architektur)
+- [🔄 End-to-End Workflow](#-end-to-end-workflow)
+- [💻 Installation & Lokales Deployment](#-installation--lokales-deployment)
+- [⚙️ Konfiguration](#️-konfiguration)
+- [🔒 Sicherheit & Governance](#-sicherheit--governance)
+- [🚀 Performance & Observability](#-performance--observability)
+- [🛣️ Roadmap](#️-roadmap)
+- [💼 Einsatzszenarien](#-einsatzszenarien)
+- [⚡ Quickstart](#-quickstart)
+- [📊 Executive Insights](#-executive-insights)
+- [📑 Lizenz & Beitrag](#-lizenz--beitrag)
+- [🧭 Nächste Schritte](#-nächste-schritte)
 ---
 
 [Hier wird ein GIF oder vllt doch ein Video eingesetzt - zur Veranschaulichungszweck (Veröffentlichung bis heute spät abend)]
