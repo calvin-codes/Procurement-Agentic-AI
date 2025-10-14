@@ -142,6 +142,7 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 
 ## 🧭 Nächste Schritte
 
+- **Gif/Video Präsentation:** Einfügen eines demos des Pilot-Launch in Readme Github
 - **Diagramm-Support:** Tool-Stack mit Logos sowie eine prägnante Workflow-Übersicht.
 - **Pilot-Launch:** Feedback sammeln und Metriken beobachten.
 - **MCP-Integration:** Interagentische Erweiterung im nächsten Pilot-Stadium.
