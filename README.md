@@ -14,15 +14,12 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 - [🛠️ Tech Stack](#️-tech-stack)
 - [🏗️ Architektur](#-architektur)
 - [🔄 End-to-End Workflow](#-end-to-end-workflow)
-- [💻 Installation & Lokales Deployment](#-installation--lokales-deployment)
 - [⚙️ Konfiguration](#️-konfiguration)
 - [🔒 Sicherheit & Governance](#-sicherheit--governance)
 - [🚀 Performance & Observability](#-performance--observability)
 - [🛣️ Roadmap](#️-roadmap)
 - [💼 Einsatzszenarien](#-einsatzszenarien)
-- [⚡ Quickstart](#-quickstart)
 - [📊 Executive Insights](#-executive-insights)
-- [📑 Lizenz & Beitrag](#-lizenz--beitrag)
 - [🧭 Nächste Schritte](#-nächste-schritte)
 
 ---
@@ -87,18 +84,65 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 
 ## 🔄 End-to-End Workflow
 
-```mermaid
-flowchart LR
-  A[User Anfrage] --> B[OCR/Parsing]
-  B --> C[Schema-Agent → JSON]
-  C --> D[Embedding & Qdrant Insert]
-  D --> E[Light-Graph RAG]
-  E --> F[LLM-Router (Ollama/OpenRouter)]
-  F --> G[Guardrails Check]
-  G --> H[Antwort an User]
-  C --> I[SLA Checker]
-  I -->|OK| H
-  I -->|Alarm| J[Reminder/Notify Staff]
-  I -->|Verstoß| K[Eskalation Manager]
-  H & J & K --> L[Audit-Log (Postgres)]
-  L --> M[Deepeval Analyse]
+
+  
+## ⚙️ Konfiguration
+
+- **Embedding-Strategie:** Kombiniere Produkt, Marke, Menge, Team und Datum zu kompakten, semantisch aussagekräftigen Texten.
+- **RAG-Kontext:** Light-Graph-Knoten für Teams, Produkte, SLAs und Lieferanten; gezielte Verknüpfungen für präzises Retrieval.
+- **Kontext-Expansion:** Nur bei Unklarheit oder fehlenden Daten, kostenbewusst und kontrolliert.
+- **Guardrail-Policies:** Output-Filter, API-Limits und Rollen-Gates vor kritischen Aktionen.
+
+---
+
+## 🔒 Sicherheit & Governance
+
+- **Guardrails:** Richtlinien für Inhalte, Aktionen und sichere Tool-Ausführung.
+- **API-Security:** Tokens, Rate-Limits und IP-Filter, auch für Tunnel (z. B. ngrok).
+- **Auditability:** Vollständige Protokolle für alle AI-Entscheidungen und Eskalationsereignisse.
+- **Compliance:** Budget- und Datenschutz-Checks eingebettet in die Workflows.
+
+---
+
+## 🚀 Performance & Observability
+
+- **Deepeval:** Identifiziert langsame Nodes (Threshold > 1 s) und priorisiert Optimierungen.
+- **KPI-Dashboard:** Antwortzeit, SLA-Reminder-Quote, Eskalationsrate, First-Contact-Resolution.
+
+---
+
+## 🛣️ Roadmap
+
+| Phase   | Fokus                                                     |
+|---------|-----------------------------------------------------------|
+| Pilot   | Lokales Hosting, Chat, SLA-Monitoring, Eskalation         |
+| Phase 2 | Deepeval-Tuning, Retrieval-Optimierung                    |
+| Phase 3 | MCP-Integration (Agenten-Interoperabilität)               |
+| Phase 4 | Cloud-Rollout, ERP-Anbindung, erweiterte Compliance       |
+
+---
+
+## 💼 Einsatzszenarien
+
+- **Anfragen:** Lieferstatus, Budgetfreigabe, Ersatzartikel.
+- **Dokumenteingang:** OCR aus Rechnung oder Bestellschein mit automatischer Zuordnung.
+- **Proaktive SLAs:** Erinnerungen vor Fristablauf; Eskalation bei Verstößen.
+- **Manager-View:** Übersicht, Risiken und klare Handlungsempfehlungen.
+
+---
+
+## 📊 Executive Insights
+
+- **Effizienzgewinn:** Bis zu 70 % weniger manuelle Tickets.
+- **Konsistenz:** Kontinuierliche SLA-Überwachung in Echtzeit.
+- **Sicherheit:** Lokales Hosting und Guardrails minimieren Risiken.
+- **Skalierbar:** Modularer Aufbau für zukünftige Expansion.
+
+---
+
+## 🧭 Nächste Schritte
+
+- **Diagramm-Support:** Tool-Stack mit Logos sowie eine prägnante Workflow-Übersicht.
+- **Pilot-Launch:** Feedback sammeln und Metriken beobachten.
+- **MCP-Integration:** Interagentische Erweiterung im nächsten Pilot-Stadium.
+- **Cloud-Skalierung:** ERP/Procurement-System Anbindung und Governance ausbauen.
