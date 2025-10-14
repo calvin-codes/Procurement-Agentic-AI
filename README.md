@@ -133,7 +133,7 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 
 ## 📊 Executive Insights
 
-- **Effizienzgewinn:** Bis zu 70 % weniger manuelle Tickets.
+- **Effizienzgewinn:** Weniger manuelle Tickets.
 - **Konsistenz:** Kontinuierliche SLA-Überwachung in Echtzeit.
 - **Sicherheit:** Lokales Hosting und Guardrails minimieren Risiken.
 - **Skalierbar:** Modularer Aufbau für zukünftige Expansion.
