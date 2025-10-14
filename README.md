@@ -9,19 +9,6 @@ This repository explores how agentic AI systems can transform procurement by com
 
 Dieses Projekt modernisiert Ihre Beschaffungsprozesse mit einem **modularen KI-Stack**.  
 Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln in Echtzeit und eskaliert Verstöße automatisiert an die richtigen Rollen.
-
----
-
-## 🎯 Ziele
-
-- ⚡ **Automatisierte Antworten** auf Standardanfragen  
-- ⏱️ **Echtzeit-SLA-Monitoring** mit automatischen Erinnerungen  
-- 🚨 **Eskalations-Logik** an Manager oder definierte Teams  
-- 🔍 **Semantische Suche & Kontext-Engineering** via Vector DB & Light-Graph-RAG  
-- 🔐 **Sicherheit & Compliance** durch Guardrails und API-Security  
-- 📈 **Messbare Performance-Optimierung** mit Deepeval  
-- 🔄 **Zukunftsfähigkeit** via MCP-Integration in der nächsten Pilotphase
-
 - [🚀 Überblick](#-überblick)
 - [🎯 Ziele](#-ziele)
 - [🛠️ Tech Stack](#️-tech-stack)
@@ -37,6 +24,19 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 - [📊 Executive Insights](#-executive-insights)
 - [📑 Lizenz & Beitrag](#-lizenz--beitrag)
 - [🧭 Nächste Schritte](#-nächste-schritte)
+
+---
+
+## 🎯 Ziele
+
+- ⚡ **Automatisierte Antworten** auf Standardanfragen  
+- ⏱️ **Echtzeit-SLA-Monitoring** mit automatischen Erinnerungen  
+- 🚨 **Eskalations-Logik** an Manager oder definierte Teams  
+- 🔍 **Semantische Suche & Kontext-Engineering** via Vector DB & Light-Graph-RAG  
+- 🔐 **Sicherheit & Compliance** durch Guardrails und API-Security  
+- 📈 **Messbare Performance-Optimierung** mit Deepeval  
+- 🔄 **Zukunftsfähigkeit** via MCP-Integration in der nächsten Pilotphase
+
 ---
 
 [Hier wird ein GIF oder vllt doch ein Video eingesetzt - zur Veranschaulichungszweck (Veröffentlichung bis heute spät abend)]
