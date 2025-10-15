@@ -36,7 +36,7 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 
 ---
 
-[Hier wird ein GIF oder vllt doch ein Video eingesetzt - zur Veranschaulichungszweck (Veröffentlichung bis heute spät abend)]
+[Hier wird ein GIF oder vllt doch ein Video eingesetzt - zur Veranschaulichungszweck (Veröffentlichung bis heute ende des Tages)]
 
 ---
 
