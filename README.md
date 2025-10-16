@@ -36,8 +36,8 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 
 ---
 
-[![Demo: Anlegen einer Bestellung sowie abfragen der Details](https://vimeo.com/1127977900?fl=ip&fe=ec)]
-(thumbnail.jpeg)
+[Hier geht’s zum Video auf Vimeo](https://vimeo.com/1127977900?fl=ip&fe=ec)
+![Thumbnail](thumbnail.jpeg)
 
 
 ---
