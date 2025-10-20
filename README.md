@@ -36,7 +36,7 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell, überwacht SLA-Regeln 
 
 ---
 
-[Hier geht’s zum Video auf Vimeo](https://vimeo.com/1127977900?fl=ip&fe=ec)
+[Hier geht’s zum Video auf Vimeo](https://vimeo.com/1127977900?share=copy&fl=sv&fe=ci)
 
 ![Thumbnail](thumbnail.jpeg)
 
