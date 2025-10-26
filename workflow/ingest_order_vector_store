@@ -1,0 +1,272 @@
+{
+  "name": "Ingest to Vector Store -> BUILDING",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Input-Daten holen\nconst inputItems = $input.all();\n\n// Array für die Markdown-Ausgaben initialisieren\nconst markdownOutputs = [];\n\n// Durch alle Items iterieren und für jedes ein separates Markdown erstellen\ninputItems.forEach(item => {\n    const output = item.json.output;\n    const product = item.json[\"output.items\"];\n\n    // Markdown für das aktuelle Produkt erstellen\n    const markdown = `\n# Lieferung am ${output.Due_Date}\n\n**Lieferadresse:** ${output.Delivery_Address}\n\n---\n\n## Checkliste\n\n- [ ] ${[\n        product.Product,\n        product.Brand || \"–\",\n        `${product.Quantity} ${product.Unit}`,\n        product.Additional_Info || \"–\"\n    ].filter(field => field !== \"–\").join(\", \")}\n\n---\n### Zuständig\n- **Team:** ${product.DeliveryTo_Team || \"–\"}\n- **Benutzer:** ${product.DeliveryTo_User || \"–\"}\n`;\n\n    // Markdown zum Array hinzufügen\n    markdownOutputs.push({\n        json: {\n            markdown: markdown\n        }\n    });\n});\n\n// Markdown-Ausgaben zurückgeben\nreturn markdownOutputs;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1072,
+        688
+      ],
+      "id": "5cc23d19-f5d8-4880-9d59-fbe2060497c8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        608
+      ],
+      "id": "b3c74113-f8fe-415c-bd6b-2c9b0687ae35",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        512
+      ],
+      "id": "27ddd34b-99ed-4dbd-a536-cbf65df2f09e",
+      "name": "Embeddings Mistral Cloud",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "wR55DdgJVkKeXZbh",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "DeliveryTo_Team",
+                "value": "="
+              },
+              {
+                "name": "Due_Date",
+                "value": "="
+              },
+              {
+                "name": "DeliveryTo_User",
+                "value": "="
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -512,
+        448
+      ],
+      "id": "0f42af35-f64e-4ee3-b85b-28048beef680",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "text",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -592,
+        176
+      ],
+      "id": "7cbd9737-63a5-4607-b3f1-e6cf0d6ed75a",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "4vFg7mrJCMwaThcd",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -896,
+        160
+      ],
+      "id": "12bf431b-ff46-49ef-ab0d-e3b22bdf7541",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "cc78c117-a2c4-414a-b1d2-8062584cc6e8",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -1376,
+        272
+      ]
+    }
+  ],
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "output": {
+            "Due_Date": "2026-06-20",
+            "Delivery_Address": "Friedrichstraße 45, 10969 Berlin"
+          },
+          "output.items": {
+            "Product": "Kugelschreiber",
+            "Brand": "Pilot",
+            "Quantity": 25,
+            "Unit": "Stück",
+            "DeliveryTo_Team": "Vertrieb"
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "Due_Date": "2026-06-20",
+            "Delivery_Address": "Friedrichstraße 45, 10969 Berlin"
+          },
+          "output.items": {
+            "Product": "Whiteboard",
+            "Brand": "",
+            "Quantity": 4,
+            "Unit": "Stück",
+            "DeliveryTo_Team": "HR"
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "Due_Date": "2026-06-20",
+            "Delivery_Address": "Friedrichstraße 45, 10969 Berlin"
+          },
+          "output.items": {
+            "Product": "Laptop",
+            "Brand": "Lenovo",
+            "Quantity": 3,
+            "Unit": "Stück",
+            "DeliveryTo_Team": "Entwicklung"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Mistral Cloud": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6701e07e-840e-4f2e-a21a-37461e03faed",
+  "meta": {
+    "instanceId": "09c7956195eb990b513c5b80bd08a756cd448ef6218f6ceb85c8a996de1cf703"
+  },
+  "id": "LLjdcQ3zXAN4JHNe",
+  "tags": []
+}
