@@ -1,0 +1,838 @@
+{
+  "name": "chatOrder -> BUILDING",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2a7108e0-dd31-406b-b8b8-f2ec52889a6f",
+                    "leftValue": "={{ $json.output.classification }}",
+                    "rightValue": "general query",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "fa49a913-771a-4ac4-891f-a65860e6d875",
+                    "leftValue": "={{ $json.output.classification }}",
+                    "rightValue": "order",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -2496,
+        80
+      ],
+      "id": "7fb865cd-128d-4f2e-ad7a-d76b751b0354",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"orders\": {\n      \"type\": \"array\",\n      \"description\": \"List of grouped orders, each with delivery info and products\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"DeliveryTo_Team\": {\n            \"type\": \"string\",\n            \"description\": \"Team to which the order should be delivered\"\n          },\n          \"DeliveryTo_User\": {\n            \"type\": \"string\",\n            \"description\": \"User to whom the order should be delivered\"\n          },\n          \"Delivery_Address\": {\n            \"type\": \"string\",\n            \"description\": \"Address where the order should be delivered\"\n          },\n          \"Due_Date\": {\n            \"type\": \"string\",\n            \"description\": \"Due date in ISO format\"\n          },\n          \"Products\": {\n            \"type\": \"array\",\n            \"description\": \"List of ordered products for this delivery\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"Product\": {\n                  \"type\": \"string\",\n                  \"description\": \"Name of the product\"\n                },\n                \"Brand\": {\n                  \"type\": \"string\",\n                  \"description\": \"Brand of the product\"\n                },\n                \"Quantity\": {\n                  \"type\": \"integer\",\n                  \"description\": \"Number of units ordered\"\n                },\n                \"Unit\": {\n                  \"type\": \"string\",\n                  \"description\": \"Unit of measurement, e.g. piece, liter\"\n                },\n                \"Additional_Info\": {\n                  \"type\": \"string\",\n                  \"description\": \"Description of the product like size, packaging, etc.\"\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -1664,
+        96
+      ],
+      "id": "b6409732-4a9c-49ad-af68-2d9a9ac86134",
+      "name": "Information Extractor",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "height": 544,
+        "width": 224,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3168,
+        -128
+      ],
+      "id": "42e983e4-8b8b-4d92-852b-6ea4aca561de",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Respond to general query  if not an order request\n\n### Fix\n- Agent has to use filter via metadata\n- Agent do know the what the vector store has",
+        "height": 1216,
+        "width": 544,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2256,
+        -320
+      ],
+      "id": "6db389c7-c635-4690-85cc-0bf5039fbed7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Insert a new ro in the Google Sheet",
+        "height": 544,
+        "width": 512,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1712,
+        -128
+      ],
+      "id": "2dd637e4-2e7f-4b35-9ba1-eb1686e2c539",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.orders",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1344,
+        96
+      ],
+      "id": "fc86294d-093b-4c31-b0da-48ecaef99e9c",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -3136,
+        80
+      ],
+      "id": "4c99fa89-b35e-4122-a4a5-7ae1af2bac09",
+      "name": "When chat message received",
+      "webhookId": "8b9e2723-e673-4b12-8fdb-823f4ec1f4fd"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.output}}{{ $json.text }}{{ $('Information Extractor1').item.json.output.summary }}",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -16
+      ],
+      "id": "09409698-d955-4ea1-acfc-841715889e5a",
+      "name": "Respond to Chat",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "## Respond by confirming the Order has been placed.",
+        "height": 544,
+        "width": 496,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -128
+      ],
+      "id": "07c84b3a-2542-4673-b6a7-2876f4b6b0a6",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "options": {
+          "systemMessage": "=You are a procurement assistant. When you call the tool \"Knowledge\", always pass the user's question as the input parameter. Never change or replace the function name.\nAlways respond with the output of the tool without modifications.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -2112,
+        -16
+      ],
+      "id": "007863cc-db80-4e94-a4fe-3f11f05410d8",
+      "name": "AI Agent",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "text",
+          "mode": "list",
+          "cachedResultName": "text"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -2208,
+        528
+      ],
+      "id": "51e5e312-e98d-4007-aec3-9f902ed18105",
+      "name": "Qdrant Vector Store1",
+      "credentials": {
+        "qdrantApi": {
+          "id": "4vFg7mrJCMwaThcd",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "=",
+        "topK": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        -2016,
+        272
+      ],
+      "id": "e03bfe17-25fa-46c7-8319-2e24c33fc0a6",
+      "name": "Knowledge"
+    },
+    {
+      "parameters": {
+        "model": "mistral-large-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        -2736,
+        256
+      ],
+      "id": "4c80eff2-e96e-45f9-8116-f0449d49d350",
+      "name": "Mistral Cloud Chat Model",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "wR55DdgJVkKeXZbh",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral-large-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        -1616,
+        272
+      ],
+      "id": "a2450521-fb22-4653-a983-a75e02c1520d",
+      "name": "Mistral Cloud Chat Model1",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "wR55DdgJVkKeXZbh",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral-large-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        -2208,
+        224
+      ],
+      "id": "290ec668-14ea-4ad3-8cf6-8e0be0972785",
+      "name": "Mistral Cloud Chat Model3",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "wR55DdgJVkKeXZbh",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "mistral-large-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        -1888,
+        480
+      ],
+      "id": "30694caf-9976-4299-8d82-5f9471a3e031",
+      "name": "Mistral Cloud Chat Model4",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "wR55DdgJVkKeXZbh",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        -2128,
+        736
+      ],
+      "id": "c253ff2f-8f72-44ac-a13f-4fe5ca948fbf",
+      "name": "Embeddings Mistral Cloud1",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "wR55DdgJVkKeXZbh",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## MVP: ingest data to vector db\n\n### Next steps:\n- implement collection update to avoid duplicates\n- connect json fields with metadata of vector store",
+        "height": 672,
+        "width": 960,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        -256
+      ],
+      "id": "c6a4f743-16b8-4a9a-8135-a8880efa4200",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "9HuHZUEGSE1wtccX",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/9HuHZUEGSE1wtccX",
+          "cachedResultName": "CreateRowSheets -> MVP"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -384,
+        96
+      ],
+      "id": "e638e056-a241-427b-b402-e65a9edbbf45",
+      "name": "Call 'CreateRowSheets -> MVP'"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "helloworld",
+          "mode": "list",
+          "cachedResultName": "helloworld"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.ID }}",
+            "deliveryto_team": "={{ $json.DeliveryTo_Team }}",
+            "deliveryto_user": "={{ $json.DeliveryTo_User }}",
+            "delivery_address": "={{ $json.Delivery_Address }}",
+            "due_date": "={{ $json.Due_Date }}",
+            "products": "={{ $json.Products }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": true,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "deliveryto_team",
+              "displayName": "deliveryto_team",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "deliveryto_user",
+              "displayName": "deliveryto_user",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "delivery_address",
+              "displayName": "delivery_address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "due_date",
+              "displayName": "due_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "products",
+              "displayName": "products",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "queryBatching": "transaction"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -736,
+        96
+      ],
+      "id": "7965c90a-1228-46d2-8109-13e1311df46b",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "Wg48Bnugzzbk17br",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "action": "generate",
+        "dataPropertyName": "=ID"
+      },
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        -928,
+        96
+      ],
+      "id": "e0a5bed7-dadb-40a2-9e2c-563502306318",
+      "name": "Crypto"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "LLjdcQ3zXAN4JHNe",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/LLjdcQ3zXAN4JHNe",
+          "cachedResultName": "Ingest to Vector Store -> BUILDING"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {}
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -560,
+        96
+      ],
+      "id": "7caed363-f31a-4bde-b30c-d9b20e2e62e0",
+      "name": "Call 'Ingest to Vector Store -> BUILDING'"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Input-Daten holen\nconst inputs = $input.all();\n\n// Durch alle Input-Objekte iterieren\nconst updatedInputs = inputs.map(input => {\n  // Prüfe, ob \"output.orders\" und \"output.orders.Products\" existieren\n  if (input.json[\"output.orders\"]?.Products) {\n    // Erweitere die Produkte im \"output.orders\"-Objekt\n    input.json[\"output.orders\"].Products = input.json[\"output.orders\"].Products.map(product => ({\n      ...product,\n      product_key: `${Math.random().toString(36).substr(2, 9)}`, // Zufällige ID generieren,\n      status: \"created\", // Standardstatus\n      comments: \"\",\n      create_date: `${DateTime}`// Leerer Kommentar\n    }));\n  }\n\n // Gib nur \"output.orders\" zurück\n  return input.json[\"output.orders\"];\n});\n\n// Ausgabe zurückgeben\nreturn updatedInputs;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1120,
+        96
+      ],
+      "id": "9c421cbb-9d21-417d-b433-25c0ec0d578c",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.chatInput }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"classification\": \"choose whether an 'order' or 'general query'\",\n  \"summary\": \"leave this blank unless it an 'order' then a short message to user confirming the order request\"\n}",
+        "options": {
+          "systemPromptTemplate": "=choose whether an 'order' or 'general query'. In order to classify it as an order the query must explicitly state an action to order and muss have at least one product. leave 'summary' blank unless it an 'order' then a short message to user confirming the order request"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -2848,
+        80
+      ],
+      "id": "a0523075-f028-40a2-b788-0244013e3fb1",
+      "name": "Information Extractor1"
+    },
+    {
+      "parameters": {
+        "height": 544,
+        "width": 688,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2944,
+        -128
+      ],
+      "id": "e0834266-90ac-49a8-9632-553a4a922b21",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Knowledge",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Knowledge",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Mistral Cloud1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'CreateRowSheets -> MVP'": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        [
+          {
+            "node": "Call 'Ingest to Vector Store -> BUILDING'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'Ingest to Vector Store -> BUILDING'": {
+      "main": [
+        [
+          {
+            "node": "Call 'CreateRowSheets -> MVP'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crypto": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Crypto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fa1da88d-9bca-46f9-9b97-4b205952195f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "09c7956195eb990b513c5b80bd08a756cd448ef6218f6ceb85c8a996de1cf703"
+  },
+  "id": "k82hr47C81qzc0KF",
+  "tags": [
+    {
+      "createdAt": "2025-10-14T15:31:33.324Z",
+      "updatedAt": "2025-10-14T15:31:33.324Z",
+      "id": "FkwEBIgGplNlsiGt",
+      "name": "+SLA_RulesAgent"
+    },
+    {
+      "createdAt": "2025-10-14T15:32:12.828Z",
+      "updatedAt": "2025-10-14T15:32:12.828Z",
+      "id": "Omyyd3tHdGAWbhf6",
+      "name": "ValidationAgent"
+    },
+    {
+      "createdAt": "2025-10-14T15:28:52.840Z",
+      "updatedAt": "2025-10-14T15:28:52.840Z",
+      "id": "abbFSZLOi22l23FU",
+      "name": "+FAQAgent"
+    },
+    {
+      "createdAt": "2025-10-14T15:32:02.479Z",
+      "updatedAt": "2025-10-14T15:32:02.479Z",
+      "id": "tvd6KaLS3lEdD4p0",
+      "name": "PoliciesAgent"
+    },
+    {
+      "createdAt": "2025-10-14T15:29:32.292Z",
+      "updatedAt": "2025-10-14T15:29:32.292Z",
+      "id": "u6np1QFKdcM90ocs",
+      "name": "+Orderplacement"
+    }
+  ]
+}
