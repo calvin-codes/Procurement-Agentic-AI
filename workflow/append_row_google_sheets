@@ -1,0 +1,220 @@
+{
+  "name": "CreateRowSheets -> MVP",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1a_YGAy0jMHze5m2KNr-qMSDbByMJGSSXN-iKYN4gJp0",
+          "mode": "list",
+          "cachedResultName": "order-requests",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a_YGAy0jMHze5m2KNr-qMSDbByMJGSSXN-iKYN4gJp0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1a_YGAy0jMHze5m2KNr-qMSDbByMJGSSXN-iKYN4gJp0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product": "={{ $json[\"output.items\"].Product }}",
+            "Brand": "={{ $json[\"output.items\"].Brand }}",
+            "Quantity": "={{ $json[\"output.items\"].Quantity }}",
+            "Unit": "={{ $json[\"output.items\"].Unit }}",
+            "Additional_Info": "={{ $json[\"output.items\"].Additional_Info }}",
+            "DeliveryTo_Team": "={{ $json['output.items'].DeliveryTo_Team }}",
+            "DeliveryTo_User": "={{ $json['output.items'].DeliveryTo_User }}",
+            "Due_Date": "={{ $json.output.Due_Date }}",
+            "Delivery_Address": "={{ $json.output.Delivery_Address }}"
+          },
+          "matchingColumns": [
+            "Product"
+          ],
+          "schema": [
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Brand",
+              "displayName": "Brand",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Quantity",
+              "displayName": "Quantity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Unit",
+              "displayName": "Unit",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Additional_Info",
+              "displayName": "Additional_Info",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DeliveryTo_Team",
+              "displayName": "DeliveryTo_Team",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DeliveryTo_User",
+              "displayName": "DeliveryTo_User",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Due_Date",
+              "displayName": "Due_Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Delivery_Address",
+              "displayName": "Delivery_Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        304,
+        624
+      ],
+      "id": "1aa7a686-310e-4932-9c60-849878b10890",
+      "name": "Append or update row in sheet",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0SicNYMkirw0TO1X",
+          "name": "google sheet"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 20,
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        64,
+        576
+      ],
+      "id": "c78a056b-803e-45fc-86bf-d2c731eb0e03",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "3b311ee5-b335-4b7c-b95a-54f3bd8a4cd6",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -144,
+        576
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "52a7e62d-d22f-4c05-9601-d155e8f156ff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "09c7956195eb990b513c5b80bd08a756cd448ef6218f6ceb85c8a996de1cf703"
+  },
+  "id": "9HuHZUEGSE1wtccX",
+  "tags": []
+}
