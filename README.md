@@ -12,7 +12,7 @@ Ein eingebetteter Chat beantwortet Anfragen blitzschnell und nimmt Bestellung de
 - **Semantische Suche & Kontext-Engineering** via Vector DB
 
 
-[Hier geht’s zum Video auf Vimeo.com](https://vimeo.com/1127977900?share=copy&fl=sv&fe=ci)
+Hier geht’s zum Video auf Vimeo.com -> https://vimeo.com/1127977900?share=copy&fl=sv&fe=ci
 
 ![Thumbnail](thumbnail.jpeg)
 
