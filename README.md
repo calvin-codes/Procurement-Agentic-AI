@@ -17,7 +17,7 @@ Hier geht’s zum Video auf Vimeo.com -> https://vimeo.com/1127977900?share=copy
 ![Thumbnail](thumbnail.jpeg)
 
 
-## 🛠️ Tech Stack
+## 💻 Tech Stack
 
 - **Orchestrierung:** n8n  
 - **Containerisierung:** Docker (n8n, Ollama lokal, PostgreSQL, Qdrant, ngrok)  
