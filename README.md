@@ -1,6 +1,6 @@
 # Procurement-Agentic-AI
 
-Dieses Projekt modernisiert Ihre Beschaffungsprozesse mit einem **modularen KI-Stack**.
+>Dieses Projekt modernisiert Ihre Beschaffungsprozesse mit einem **modularen KI-Stack**.
 
 ## 🎯 Ziele
 
